@@ -11,30 +11,29 @@ class Fetcher():
         self.refresh()
 
     def plot(self):
-        '''
-        matplotlib plotting for historical data
-        '''
+        """matplotlib plotting for historical data"""
         data = self.data
         dates = []
         for date in data['T']:
             date = date.replace("T", " ")
             dates.append(date)
 
-        figure = plt.figure()
+        figure = plt.figure(self.market)
+        figure.suptitle(self.market)
         ax = figure.add_subplot(111)
         ax.plot(dates, data["C"])
         plt.show()
 
     def getData(self):
-        '''
-            Returns historical data in DateFrame
-        '''
+        """Returns historical data in DateFrame"""
         return self.data
 
     def refresh(self):
+        """Refreshes data set"""
         self.data = self._fetch()
 
     def _fetch(self):
+        """Fetches data from formatted ENDPOINT"""
         END_POINT = self.END_POINT % (self.market, self.interval, self.startDate)
         data = requests.get(END_POINT).json()
         self._check(data)
@@ -42,6 +41,7 @@ class Fetcher():
         return data
 
     def _check(self, r):
+        """Checks query response message"""
         if r["success"] != True:
             if r["message"] == "INVALID_MARKET":
                 raise InvalidMarketException()
@@ -54,22 +54,16 @@ class Fetcher():
         return str(self.getData())
 
 class InvalidMarketException(Exception):
-    '''
-    Exception for invalid market name when fetching historical data
-    '''
+    """Exception for invalid market name when fetching historical data"""
     def __init__(self):
         pass
 
 class InvalidIntervalException(Exception):
-    '''
-    Exception for invalid interval when fetching historical data
-    '''
+    """Exception for invalid interval when fetching historical data"""
     def __init__(self):
         pass
 
 class InvalidParameterException(Exception):
-    '''
-    Exception for invalid parameters when fetching historical data
-    '''
+    """Exception for invalid parameters when fetching historical data"""
     def __init__(self):
         pass
