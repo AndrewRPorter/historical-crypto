@@ -73,6 +73,3 @@ class InvalidParameterException(Exception):
     '''
     def __init__(self):
         pass
-
-f = Fetcher()
-f.plot()
