@@ -4,7 +4,7 @@ import requests
 
 class Fetcher():
     END_POINT  = "https://bittrex.com/Api/v2.0/pub/market/GetTicks?marketName=%s&tickInterval=%s&_=%s"
-    def __init__(self, market = "USDT-BTC", startDate = "0000000000000", interval = "fiveMin"):
+    def __init__(self, market = "USDT-BTC", startDate = "0000000000000", interval = "day"):
         self.market    = market
         self.startDate = startDate
         self.interval  = interval
