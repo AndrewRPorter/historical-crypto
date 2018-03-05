@@ -8,17 +8,13 @@ class Fetcher():
         self.market    = market
         self.startDate = startDate
         self.interval  = interval
+        self.refresh()
 
     def plot(self):
         '''
         matplotlib plotting for historical data
         '''
-        END_POINT = self.END_POINT % (self.market, self.interval, self.startDate)
-        r = requests.get(END_POINT).json()
-        self.__check(r)
-
-        data = pd.DataFrame(r["result"])  # get result data in list of dicts
-
+        data = self.data
         dates = []
         for date in data['T']:
             date = date.replace("T", " ")
@@ -33,14 +29,19 @@ class Fetcher():
         '''
             Returns historical data in DateFrame
         '''
-        END_POINT = self.END_POINT % (self.market, self.interval, self.startDate)
-        r = requests.get(END_POINT).json()
-        self.__check(r)
+        return self.data
 
-        data = pd.DataFrame(r["result"])  # get result data in list of dicts
+    def refresh(self):
+        self.data = self._fetch()
+
+    def _fetch(self):
+        END_POINT = self.END_POINT % (self.market, self.interval, self.startDate)
+        data = requests.get(END_POINT).json()
+        self._check(data)
+        data = pd.DataFrame(data["result"])  # get result data in list of dicts
         return data
 
-    def __check(self, r):
+    def _check(self, r):
         if r["success"] != True:
             if r["message"] == "INVALID_MARKET":
                 raise InvalidMarketException()
@@ -72,3 +73,6 @@ class InvalidParameterException(Exception):
     '''
     def __init__(self):
         pass
+
+f = Fetcher()
+f.plot()
