@@ -14,14 +14,15 @@ class Fetcher():
         """matplotlib plotting for historical data"""
         data = self.data
         dates = []
-        for date in data['T']:
+        for date in data['Timestamp']:
+            print(date)
             date = date.replace("T", " ")
             dates.append(date)
 
-        figure = plt.figure(self.market)
+        figure = plt.figure(self.market, figsize=(8, 6))
         figure.suptitle(self.market)
         ax = figure.add_subplot(111)
-        ax.plot(dates, data["C"])
+        ax.plot(dates, data["Close"])
         plt.show()
 
     def getData(self):
@@ -38,6 +39,7 @@ class Fetcher():
         data = requests.get(END_POINT).json()
         self._check(data)
         data = pd.DataFrame(data["result"])  # get result data in list of dicts
+        data.columns = ['Book Value', 'Close', 'High', 'Low', 'Open', 'Timestamp', 'Volume']
         return data
 
     def _check(self, r):
