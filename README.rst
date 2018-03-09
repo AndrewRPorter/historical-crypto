@@ -12,7 +12,7 @@ Fetch raw historical data
     f = Fetcher(marketName = "USDT-BTC", startDate = "0000000000000", interval = "fiveMin")
     print(f.getData())
 
-           BV             C             H             L             O             T                     V
+           Book Value     Close         High          Low           Open          Timestamp            Volume
     0      32427.395389   8522.010000   8560.000000   8522.010000   8522.100000   2018-02-13T16:20:00   3.792131
     1      68987.781957   8558.000000   8558.000000   8551.000000   8551.000000   2018-02-13T16:25:00   8.061529
     2     113110.575639   8550.000000   8569.850000   8550.000000   8558.000000   2018-02-13T16:30:00  13.220658

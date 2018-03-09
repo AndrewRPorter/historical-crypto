@@ -1,3 +1,4 @@
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import pandas as pd
 import requests
@@ -15,17 +16,17 @@ class Fetcher():
         data = self.data
         dates = []
         for date in data['Timestamp']:
-            print(date)
             date = date.replace("T", " ")
             dates.append(date)
 
         figure = plt.figure(self.market, figsize=(8, 6))
         figure.suptitle(self.market)
         ax = figure.add_subplot(111)
+        ax.yaxis.set_major_locator(ticker.MultipleLocator(800))
         ax.plot(dates, data["Close"])
         plt.show()
 
-    def getData(self):
+    def getHistorical(self):
         """Returns historical data in DateFrame"""
         return self.data
 
